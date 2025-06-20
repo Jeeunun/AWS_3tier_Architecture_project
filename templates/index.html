@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive WordCloud</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.0/wordcloud2.min.js"></script>
+  <style>
+    #canvas {
+      width: 800px;
+      height: 400px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h2>Click-enabled WordCloud</h2>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    fetch('/static/keywords.json')  // Flask 또는 정적 경로에서 불러오기
+      .then(response => response.json())
+      .then(words => {
+        WordCloud(document.getElementById('canvas'), {
+          list: words,
+          gridSize: 8,
+          weightFactor: 10,
+          fontFamily: 'Times, serif',
+          color: 'random-dark',
+          rotateRatio: 0.5,
+          click: function(item) {
+            alert(`You clicked: ${item[0]}`);
+            // 또는 location.href = `/search?keyword=${item[0]}`;
+          }
+        });
+      });
+  </script>
+</body>
+</html>
